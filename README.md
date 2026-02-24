@@ -51,7 +51,7 @@ Le projet suit une architecture en couches :
 
 ## Documentation des API
 
-### 🔐 Authentification
+### Authentification
 
 #### Connexion
 
@@ -77,7 +77,7 @@ Authorization: Bearer <votre_token>
 
 ---
 
-### 👥 API Publiques (Visiteurs)
+### API Publiques (Visiteurs)
 
 Ces endpoints sont accessibles sans authentification.
 
@@ -192,7 +192,7 @@ GET /api/services
 
 ---
 
-### 🔒 API Administrateur
+### API Administrateur
 
 Ces endpoints nécessitent une authentification et le rôle **ADMIN**.
 
