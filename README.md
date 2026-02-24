@@ -418,7 +418,7 @@ Les erreurs sont retournées au format JSON :
 
 ## Sécurité
 
-- **CORS** : Configuré pour accepter toutes les origines (à adapter en production)
+- **CORS** : Configuré pour accepter toutes les origines 
 - **JWT** : Tokens signés avec HMAC-SHA
 - **Password** : Hashage BCrypt
 - **Session** : Stateless (pas de cookies)
