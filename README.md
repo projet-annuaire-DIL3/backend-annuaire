@@ -451,6 +451,3 @@ Les erreurs sont retournées au format JSON :
 - service (relation ManyToOne)
 - site (relation ManyToOne)
 
-## Licence
-
-Projet éducatif
