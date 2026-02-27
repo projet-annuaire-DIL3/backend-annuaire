@@ -1,6 +1,7 @@
 package com.projet.annuaire.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.projet.annuaire.dao.SalarieDao;
 import com.projet.annuaire.dao.ServiceDao;
 import com.projet.annuaire.exception.GestionException;
 import com.projet.annuaire.model.Service;
@@ -20,6 +21,7 @@ import java.util.List;
 public class ServiceController {
 
     private final ServiceDao serviceDao;
+    private final SalarieDao salarieDao;
 
     @GetMapping
     @IsAdmin
@@ -60,6 +62,9 @@ public class ServiceController {
     public ResponseEntity<Void> deleteService(@PathVariable Integer id) {
         if (!serviceDao.existsById(id)) {
             throw GestionException.notFound("Service", id);
+        }
+        if (!salarieDao.findByServiceId(id).isEmpty()) {
+            throw GestionException.conflict("Impossible de supprimer ce service car il contient des salariés associés");
         }
         serviceDao.deleteById(id);
         return ResponseEntity.noContent().build();

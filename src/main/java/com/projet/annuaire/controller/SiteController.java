@@ -1,6 +1,7 @@
 package com.projet.annuaire.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.projet.annuaire.dao.SalarieDao;
 import com.projet.annuaire.dao.SiteDao;
 import com.projet.annuaire.exception.GestionException;
 import com.projet.annuaire.model.Site;
@@ -20,6 +21,7 @@ import java.util.List;
 public class SiteController {
 
     private final SiteDao siteDao;
+    private final SalarieDao salarieDao;
 
     @GetMapping
     @IsAdmin
@@ -60,6 +62,9 @@ public class SiteController {
     public ResponseEntity<Void> deleteSite(@PathVariable Integer id) {
         if (!siteDao.existsById(id)) {
             throw GestionException.notFound("Site", id);
+        }
+        if (!salarieDao.findBySiteId(id).isEmpty()) {
+            throw GestionException.conflict("Impossible de supprimer ce site car il contient des salariés associés");
         }
         siteDao.deleteById(id);
         return ResponseEntity.noContent().build();

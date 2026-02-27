@@ -5,6 +5,7 @@ import com.projet.annuaire.view.SiteView;
 import com.projet.annuaire.view.SalarieView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,7 @@ public class Site {
     private String rue;
 
     @Column
+    @Pattern(regexp = "^\\d{5}$", message = "Le code postal doit contenir 5 chiffres")
     @JsonView({SiteView.class})
     private String cp;
 
@@ -52,6 +54,6 @@ public class Site {
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
-    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "site")
     private List<Salarie> salaries = new ArrayList<>();
 }

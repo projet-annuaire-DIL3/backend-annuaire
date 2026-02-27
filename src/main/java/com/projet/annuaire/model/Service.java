@@ -39,6 +39,6 @@ public class Service {
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
-    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "service")
     private List<Salarie> salaries = new ArrayList<>();
 }
