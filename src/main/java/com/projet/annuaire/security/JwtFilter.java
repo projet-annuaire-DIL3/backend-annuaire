@@ -46,9 +46,9 @@ public class JwtFilter extends OncePerRequestFilter {
                     .parseSignedClaims(jwt)
                     .getPayload()
                     .getSubject();
-
+            // je charge l'user depuis la base de donnee(avec son role)
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
+            
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             usernamePasswordAuthenticationToken

@@ -24,7 +24,7 @@ public class AppUserDetailsService implements UserDetailsService {
         if(optionalUtilisateur.isEmpty()) {
             throw new UsernameNotFoundException(email);
         }
-
+        //retourne AppUserDetails avec role
         return new AppUserDetails(optionalUtilisateur.get());
     }
 }

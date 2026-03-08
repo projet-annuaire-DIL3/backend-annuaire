@@ -1,6 +1,13 @@
 package com.projet.annuaire.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.projet.annuaire.dao.UtilisateurDao;
+import com.projet.annuaire.exception.GestionException;
 import com.projet.annuaire.model.Utilisateur;
+import com.projet.annuaire.security.AppUserDetails;
+import com.projet.annuaire.security.IsAdmin;
+import com.projet.annuaire.view.UtilisateurView;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.SecretKey;
@@ -23,6 +31,7 @@ AuthController {
     protected String jwtSecret;
 
     protected final AuthenticationProvider authenticationProvider;
+    protected final UtilisateurDao utilisateurDao;
 
 
 
@@ -48,5 +57,16 @@ AuthController {
 
         return new ResponseEntity<>(jwt, HttpStatus.OK);
     }
+
+
+
+    @GetMapping("/profil")
+    @IsAdmin
+    @JsonView(UtilisateurView.class)
+    public Utilisateur getProfil(@AuthenticationPrincipal AppUserDetails user) {
+        return utilisateurDao.findByEmail(user.getUsername())
+                .orElseThrow(() -> GestionException.notFound("Utilisateur", user.getUsername()));
+    }
+    
 
 }

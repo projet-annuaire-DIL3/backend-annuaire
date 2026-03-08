@@ -16,7 +16,8 @@ INSERT INTO service (nom, description, utilisateur_id) VALUES
 ('Production', 'Fabrication et transformation des produits agro-alimentaires', 1),
 ('Accueil', 'Réception des visiteurs et gestion des appels téléphoniques', 1),
 ('Informatique', 'Support technique et maintenance des systèmes d''information', 1),
-('Commercial', 'Développement commercial et relation client', 1);
+('Commercial', 'Développement commercial et relation client', 1),
+('Service Test', 'Service sans salariés', 1);
 
 -- Insertion des 100 salariés
 INSERT INTO salarie (nom, prenom, telephone_fixe, telephone_portable, email, service_id, site_id, utilisateur_id) VALUES
