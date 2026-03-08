@@ -17,11 +17,11 @@ import java.util.function.Function;
 public class MockUtilisateurDao implements UtilisateurDao {
     @Override
     public Optional<Utilisateur> findByEmail(String email) {
-        if(email.equals("a@a.com")) {
+        if(email.equals("admin@agro.com")) {
             return Optional.of(
                     new Utilisateur(
                             1,
-                            "a@a.com",
+                            "admin@agro.com",
                             "dvq35v35fq4v35fq1v35f1",
                             Role.ADMIN,
                             new ArrayList<>(),
