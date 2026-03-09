@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.beans.Transient;
+
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import tools.jackson.databind.json.JsonMapper;
@@ -128,6 +130,58 @@ public class AnnuaireApplicationTests {
                     int dernierIdInsere = newSite.getId();
                     Assertions.assertTrue(siteDao.existsById(dernierIdInsere));
                 });
+    }
+
+
+    @Test
+    void searchSalarieByName_shouldReturn200AndContainResults() throws Exception {
+        mvc.perform(get("/api/salaries/search")
+                        .param("nom", "Dupont"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void getSalarieById_shouldReturn200AndSalarieDetails() throws Exception {
+        mvc.perform(get("/api/salaries/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.nom").exists())
+                .andExpect(jsonPath("$.prenom").exists());
+    }
+
+    @Test
+    void getSalariesBySite_shouldReturn200AndFilteredResults() throws Exception {
+        mvc.perform(get("/api/salaries/site/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void getSalariesByService_shouldReturn200AndFilteredResults() throws Exception {
+        mvc.perform(get("/api/salaries/service/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void getSalarieById_withInvalidId_shouldReturn404() throws Exception {
+        mvc.perform(get("/api/salaries/99999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void getAllSites_shouldReturn200AndListOfSites() throws Exception {
+        mvc.perform(get("/api/sites"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
+    }
+
+    @Test
+    void getAllServices_shouldReturn200AndListOfServices() throws Exception {
+        mvc.perform(get("/api/services"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray());
     }
 
 }
